@@ -1,8 +1,9 @@
 {
   "meta": {
     "date": "MON · NOV 23, 2026",
-    "updated_line": "Updated tonight, 10:27pm PT — Rilo demo built + hosted, Sam + Ali replied<br>Goal deadline: <strong>Dec 9</strong> — 16 days left",
-    "footer_updated": "UPDATED · NOV 23, 2026 · 10:27PM PT"
+    "updated_line": "Updated tonight, 10:37pm PT — v2: status borders, 3-column rows, shorter cards, edit mode<br>Goal deadline: <strong>Dec 9</strong> — 16 days left",
+    "footer_updated": "UPDATED · NOV 23, 2026 · 10:37PM PT",
+    "version": "2026-11-24T06:39:04Z"
   },
   "stats": [
     {
@@ -41,7 +42,7 @@
         "cls": "b-urgent",
         "text": "Nov 24 · 8pm EST"
       },
-      "what": "AI Receptionist demo call. He already sent the <strong>$10 demo fee</strong> — he's serious. You owe him a <strong>one-pager offer package</strong> to show at the end of the call.",
+      "what": "AI Receptionist demo, Tue 8pm EST. $10 demo fee already paid. One-pager offer package still owed.",
       "meta": [
         {
           "label": "Money",
@@ -56,14 +57,15 @@
       ],
       "next": {
         "label": "Next →",
-        "html": "Build the one-pager before the call. Demo, then close with the package in front of him."
+        "html": "Build the one-pager before 8pm. Demo, then close with the package."
       },
       "tags": [
         "Discord DM",
         "Receptionist",
         "Demo"
       ],
-      "section": "urgent"
+      "section": "urgent",
+      "status": "due"
     },
     {
       "cls": "card urgent",
@@ -75,7 +77,7 @@
         "cls": "b-live",
         "text": "Replied 8:43pm ✓"
       },
-      "what": "He has a big client meeting tomorrow and asked you <strong>today at 5:28am</strong> for help on what to show and say. <strong>You replied tonight at 8:43pm</strong> — told him to call the demo number <strong>(478) 800-9008</strong> on the spot and let the client hear it book the estimate.",
+      "what": "Big client meeting Tue. Asked 5:28am for prep help. Replied 8:43pm — demo number pitch sent.",
       "meta": [
         {
           "label": "Asked",
@@ -90,13 +92,14 @@
       ],
       "next": {
         "label": "Next →",
-        "html": "Nothing owed — he has the pitch. If he writes back after the meeting, ask how it went."
+        "html": "Nothing owed. Follow up after the meeting if he writes back."
       },
       "tags": [
         "Discord DM",
         "Needs prep"
       ],
-      "section": "urgent"
+      "section": "urgent",
+      "status": "done"
     },
     {
       "cls": "card urgent",
@@ -108,7 +111,7 @@
         "cls": "b-urgent",
         "text": "Nov 24 · 7pm EST"
       },
-      "what": "Demo call booked for tomorrow night, an hour before Ryderrr. <strong>Ali (tictak0731, Toronto)</strong> brought this one in — the same Ali behind Niare Electrical. Not Alif — different person. <strong>The demo is built and hosted at cyb3rcam.github.io/rilo-demo/</strong> — Ali has the link and runs the call himself. You are not on it.",
+      "what": "Demo call Tue 7pm EST, via Ali. Demo built, hosted, link sent. Ali runs it solo.",
       "meta": [
         {
           "label": "When",
@@ -128,13 +131,14 @@
       ],
       "next": {
         "label": "Next →",
-        "html": "Nothing to build — Ali runs it solo from the link tomorrow at 7pm EST. Check in with him after."
+        "html": "Nothing to build. Check in with Ali after the call."
       },
       "tags": [
         "Via Ali · tictak0731",
         "Demo"
       ],
-      "section": "urgent"
+      "section": "urgent",
+      "status": "done"
     },
     {
       "cls": "card urgent",
@@ -146,7 +150,7 @@
         "cls": "b-money",
         "text": "$297 + $49/mo"
       },
-      "what": "<strong>Correction (Nov 23):</strong> Owen only sold his guy on the <strong>website</strong> — not a CRM. So you charge <strong>your website price: $297 setup / $49/mo</strong>. The old $1,200 + ~$700/mo CRM numbers are <strong>removed</strong> — that was a misread of the thread. You're still waiting on him for <strong>TXT / CNAME records + a Loom</strong> to point the site live.",
+      "what": "First sale — website only, not a CRM. $297 setup / $49 mo. Waiting on TXT/CNAME + Loom.",
       "meta": [
         {
           "label": "Setup — your price",
@@ -171,14 +175,15 @@
       ],
       "next": {
         "label": "Next →",
-        "html": "Chase the DNS records + Loom, collect the $297, build the site. Owen sets his own markup to his client (at least 2× yours per your rule)."
+        "html": "Chase the DNS records + Loom, collect the $297."
       },
       "tags": [
         "Discord DM",
         "Website $297 / $49mo",
         "Corrected"
       ],
-      "section": "urgent"
+      "section": "urgent",
+      "status": "waiting"
     },
     {
       "cls": "card urgent",
@@ -190,7 +195,7 @@
         "cls": "b-urgent",
         "text": "Wed Nov 25 · 12pm PT"
       },
-      "what": "He chose <strong>you</strong> as his dev. His ads go live next week. Call is to map the full chain: <strong>ads → landing page → follow-up</strong> so no lead leaks.",
+      "what": "Call Wed 12pm PT. Map ads → landing page → follow-up. $400 system. He chose you as his dev.",
       "meta": [
         {
           "label": "Call",
@@ -205,14 +210,15 @@
       ],
       "next": {
         "label": "Next →",
-        "html": "Show up with the pipeline map already sketched. He is the clearest systems-leaning student in the server — win him and others follow."
+        "html": "Show up with the pipeline map sketched."
       },
       "tags": [
         "Discord",
         "Lead Pipeline",
         "$400"
       ],
-      "section": "urgent"
+      "section": "urgent",
+      "status": "due"
     },
     {
       "cls": "card urgent",
@@ -224,7 +230,7 @@
         "cls": "b-urgent",
         "text": "Publish tonight"
       },
-      "what": "Website is <strong>finished but still not published</strong>. You already told <strong>Alif (alifimam02)</strong> tonight <strong>twice</strong> that it was going up. Every hour it sits unpublished, that promise gets weaker.",
+      "what": "Website finished, still not published. Told Alif twice it was going up tonight.",
       "meta": [
         {
           "label": "Status",
@@ -239,13 +245,14 @@
       ],
       "next": {
         "label": "Next →",
-        "html": "Hit publish tonight and send Alif the live link. Close the loop, stop carrying it."
+        "html": "Publish tonight, send Alif the live link."
       },
       "tags": [
         "Via Alif · alifimam02",
         "Website"
       ],
-      "section": "urgent"
+      "section": "urgent",
+      "status": "due"
     },
     {
       "cls": "card",
@@ -257,39 +264,35 @@
         "cls": "b-live",
         "text": "Solid ✓ · On hold — do not nudge"
       },
-      "what": "<strong>Lead Pipeline + Auto Follow-Up.</strong> 51–100 leads/mo from website forms + Google Business Profile, booked via Google Calendar / Calendly. English + Spanish (+$100 setup), professional + warm tone. Beckham asked if Chandler said anything — <strong>he didn't.</strong>",
+      "what": "Lead Pipeline + Auto Follow-Up. 51–100 leads/mo. $200 setup PAID. $129/mo link unpaid. Blocked on Chandler's access pack.",
       "meta": [
         {
           "label": "Setup — PAID",
           "normal": false,
-          "value": "$200 setup PAID ✓ — RECEIVED"
+          "value": "$200 ✓ RECEIVED"
         },
         {
           "label": "Monthly link",
           "normal": false,
-          "value": "$129/mo — UNPAID (only this is outstanding)"
+          "value": "$129/mo — UNPAID"
         },
         {
-          "label": "Setup status",
+          "label": "Blocked on",
           "normal": true,
-          "value": "Received income — NOT upcoming, NOT owed"
-        },
-        {
-          "label": "Trial clock",
-          "normal": true,
-          "value": "Monthly link only: first charge Dec 12 IF he pays — he hasn't paid the link yet"
+          "value": "Chandler's access pack (forms, logins, calendar, consent)"
         }
       ],
       "next": {
-        "label": "Blocked →",
-        "html": "Chandler's access pack: website form links, account logins, calendar email + booking link, SMS consent form link. 2nd follow-up email sent Nov 23 to owner@deltaautosusa.com. Build week starts the day it lands — one week from then. <strong>Do not nudge Beckham until you say otherwise.</strong>"
+        "label": "Next →",
+        "html": "Build starts the day Chandler's access lands. Do not nudge Beckham."
       },
       "tags": [
         "Email + Discord",
         "Lead Pipeline · Setup $200 paid ✓",
         "EN + ES"
       ],
-      "section": "active"
+      "section": "active",
+      "status": "waiting"
     },
     {
       "cls": "card",
@@ -301,7 +304,7 @@
         "cls": "b-wait",
         "text": "Not live yet — $150/mo"
       },
-      "what": "<strong>Scope expanded (Nov 23):</strong> Brothers doesn't want just a one-off reactivation campaign — he wants the <strong>whole review automation, ongoing</strong>, plus the <strong>invoice system</strong>. That's why the price jumps: <strong>$50/mo → $150/mo</strong>. Build is n8n + GoHighLevel: invoice reminders at 3, 7 &amp; 14 days + continuous review requests after every finished job. Brothers asked Nov 18 to <strong>pause reminders for a week</strong> while they clean up Yardbook. <strong>Not live yet</strong> — the old $50/mo / Dec 3 start no longer applies.",
+      "what": "Full review automation + invoice system. $300 paid. $150/mo when live. Not live yet.",
       "meta": [
         {
           "label": "Paid",
@@ -314,19 +317,14 @@
           "value": "$150/mo (was $50)"
         },
         {
-          "label": "Why the jump",
-          "normal": true,
-          "value": "Full review automation (ongoing) + invoice system — two systems, not one campaign"
-        },
-        {
           "label": "Status",
           "normal": true,
-          "value": "NOT LIVE — link goes in only when the system is live (your rule)"
+          "value": "NOT LIVE — link goes in only at go-live"
         }
       ],
       "next": {
         "label": "Next →",
-        "html": "Finish the pause week, build out the full review automation + invoices, go live, then send the updated $150/mo link. Do not send the old $50 link."
+        "html": "Finish the pause week, go live, then send the $150/mo link."
       },
       "tags": [
         "iMessage",
@@ -335,7 +333,8 @@
         "n8n + GHL",
         "$150/mo"
       ],
-      "section": "active"
+      "section": "active",
+      "status": "waiting"
     },
     {
       "cls": "card live-card",
@@ -347,7 +346,7 @@
         "cls": "b-live",
         "text": "Live ✓"
       },
-      "what": "Your proof case. Receptionist is <strong>live and answering</strong> — this is the demo you point every new prospect at. A call-and-text add-on is in progress.",
+      "what": "AI Receptionist live and answering. $200/mo, first charge Nov 28. Call-and-text add-on in progress.",
       "meta": [
         {
           "label": "Monthly",
@@ -372,14 +371,15 @@
       ],
       "next": {
         "label": "Next →",
-        "html": "Finish the add-on, confirm the Nov 28 charge lands clean."
+        "html": "Finish the add-on, confirm the Nov 28 charge."
       },
       "tags": [
         "Receptionist",
         "Proof / Demo",
         "$200/mo"
       ],
-      "section": "active"
+      "section": "active",
+      "status": "live"
     },
     {
       "cls": "card",
@@ -391,7 +391,7 @@
         "cls": "b-money",
         "text": "Valid — just close it"
       },
-      "what": "<strong>Confirmed valid (Nov 23) — this one just needs closing.</strong> Two parts: (1) 6-system package, scope doc ready Nov 23 — <strong>$895 setup / $705/mo</strong> (her price to her client is hers to set, at least 2× yours). (2) A <strong>separate website</strong> like Qing Agency with video + drone sections, scoped once logo + videos land.",
+      "what": "6-system package, $895 / $705 mo. Scope doc ready. Website separate, scoped after logo + videos.",
       "meta": [
         {
           "label": "Package",
@@ -411,12 +411,12 @@
         {
           "label": "Doc",
           "normal": true,
-          "value": "Scope doc ready Nov 23 — no price of yours on her client doc"
+          "value": "Scope doc ready Nov 23"
         }
       ],
       "next": {
         "label": "Next →",
-        "html": "Close it: get the yes on the package, collect the setup, chase logo + videos for the website in the same conversation."
+        "html": "Close it: get the yes, collect setup, chase logo + videos."
       },
       "tags": [
         "Discord",
@@ -424,7 +424,8 @@
         "Website",
         "Close"
       ],
-      "section": "active"
+      "section": "active",
+      "status": "due"
     },
     {
       "cls": "card live-card",
@@ -436,7 +437,7 @@
         "cls": "b-live",
         "text": "Live ✓ — verify it's working"
       },
-      "what": "<strong>Correction (Nov 23): D7 is already live.</strong> No longer “waiting on approval.” The open item now is a <strong>working check</strong> — load the live site, confirm the domain switch took, forms submit, and nothing broke after go-live. GoDaddy invite re-sent Nov 13, Google Business Profile manager confirmed Nov 13.",
+      "what": "Website live. $250/mo maintenance, first charge Nov 26. $400 SEO setup paid. Working check still owed.",
       "meta": [
         {
           "label": "Maintenance",
@@ -446,22 +447,17 @@
         {
           "label": "D7 SEO setup",
           "normal": false,
-          "value": "$400 PAID ✓ RECEIVED (Apple Pay Nov 14) — not owed · then $400/mo manual"
-        },
-        {
-          "label": "Card",
-          "normal": true,
-          "value": "Same card on file — Tyler does NOT re-enter it"
+          "value": "$400 PAID ✓ RECEIVED"
         },
         {
           "label": "Status",
           "normal": true,
-          "value": "LIVE — needs a working check from you"
+          "value": "LIVE — needs a working check"
         }
       ],
       "next": {
         "label": "Next →",
-        "html": "Run the live check: site loads on the real domain, contact/lead form works, GBP link resolves. Then confirm the Nov 26 $250 charge."
+        "html": "Run the live check: site, domain, forms."
       },
       "tags": [
         "Website — LIVE",
@@ -469,7 +465,8 @@
         "$250/mo",
         "Check pending"
       ],
-      "section": "active"
+      "section": "active",
+      "status": "waiting"
     },
     {
       "cls": "card urgent",
@@ -481,7 +478,7 @@
         "cls": "b-urgent",
         "text": "Website demo · Wed eve"
       },
-      "what": "<strong>Ali is tictak0731 in Toronto — a different person from Alif.</strong> He sent you his client's services list <strong>Nov 23 at 8:01pm, 16 services</strong> for the Niare Electrical website. He also brought you <strong>Rilo Window Cleaning</strong> (demo Nov 24, 7pm EST). You answered his <strong>“is this good/” at 9:57pm</strong> — told him the list is good, Rilo demo tomorrow, website demo by Wednesday. Ali paid <strong>$30 via PayPal Nov 22</strong>.",
+      "what": "16-service list received Nov 23, 8:01pm. Website demo owed by Wed evening. Ali paid $30 PayPal.",
       "meta": [
         {
           "label": "Services list",
@@ -506,14 +503,15 @@
       ],
       "next": {
         "label": "Next →",
-        "html": "Rilo demo is built and Ali has the link. Website demo still owed by Wed evening."
+        "html": "Build the website demo by Wed evening."
       },
       "tags": [
         "Discord DM — Ali · tictak0731",
         "Website demo",
         "Separate from Alif"
       ],
-      "section": "active"
+      "section": "active",
+      "status": "due"
     },
     {
       "cls": "card",
@@ -525,7 +523,7 @@
         "cls": "b-hold",
         "text": "Price clarified"
       },
-      "what": "<strong>Correction (Nov 23):</strong> the $800/mo figure was <strong>you telling Mohammed what HE should charge HIS client</strong> — it was never your price to Mohammed. Your charge to Mohammed is <strong>separate and lower</strong>, scoped per system from your price sheet (and per your rule, Mohammed charges his client at least 2× what you charge him). The $800 is <strong>removed from your pipeline revenue</strong> — counting it was double-counting his markup as your money.",
+      "what": "Open deal. $800/mo is what HE charges his client, not your revenue. Your price TBD.",
       "meta": [
         {
           "label": "$800/mo is",
@@ -550,14 +548,15 @@
       ],
       "next": {
         "label": "Next →",
-        "html": "Scope the actual system, quote Mohammed YOUR price, let him hold his $800 to his client. Don't book $800 as your MRR."
+        "html": "Scope the system, quote Mohammed your price."
       },
       "tags": [
         "Discord DM",
         "Open deal",
         "Corrected"
       ],
-      "section": "active"
+      "section": "active",
+      "status": "waiting"
     },
     {
       "cls": "card",
@@ -569,7 +568,7 @@
         "cls": "b-hold",
         "text": "First month free"
       },
-      "what": "<strong>Carlos Glass is Alif's AI SEO client</strong> — he runs through <strong>Alif (alifimam02)</strong>, not Ali. His website is complete and his Google Business Profile invite reached you Nov 16. Terms: <strong>first month FREE</strong> (one-time exception — do not repeat it for new clients), then <strong>$400/mo from month 2 if he continues</strong>. He is paying <strong>$0 right now</strong> — the $400 is not current revenue.",
+      "what": "AI SEO via Alif. First month free, $0 now. $400/mo from month 2 if he continues.",
       "meta": [
         {
           "label": "Now",
@@ -594,14 +593,15 @@
       ],
       "next": {
         "label": "Next →",
-        "html": "Confirm with Alif whether Carlos continues into month 2 before counting or billing the $400."
+        "html": "Confirm with Alif whether Carlos continues into month 2."
       },
       "tags": [
         "Via Alif · alifimam02",
         "AI SEO",
         "Free month 1"
       ],
-      "section": "active"
+      "section": "active",
+      "status": "live"
     },
     {
       "cls": "card",
@@ -613,7 +613,7 @@
         "cls": "b-wait",
         "text": "No client yet"
       },
-      "what": "Asked how to set up an <strong>AI receptionist + review SMS on Australian numbers</strong> for his client. Good question, no client locked in yet — so no build date.",
+      "what": "Asked about AI receptionist + review SMS on Australian numbers. No client locked in yet.",
       "meta": [
         {
           "label": "Ask",
@@ -628,13 +628,14 @@
       ],
       "next": {
         "label": "Next →",
-        "html": "Answer the AU-numbers question, keep him warm, don't build anything until he names the client."
+        "html": "Answer the AU-numbers question. No build until he names the client."
       },
       "tags": [
         "Discord · Nov 23",
         "International"
       ],
-      "section": "active"
+      "section": "active",
+      "status": "waiting"
     },
     {
       "cls": "card",
@@ -646,7 +647,7 @@
         "cls": "b-money",
         "text": "AI SEO · $150/mo"
       },
-      "what": "<strong>Alif is his own person.</strong> You call him “Ali” as a nickname, but he is <strong>not</strong> the Discord user Ali (tictak0731, Toronto) — two different people, two different threads. Alif brings you <strong>Carlos Glass</strong> (AI SEO, first month free) and <strong>Soomro Construction</strong> (website finished, publish owed). His own AI SEO runs at <strong>$150/mo on Stripe, first charge Dec 11</strong>. He also sold clients free trials and pays under your full rate on setups — his work fills gaps, it doesn't jump the queue ahead of full-paying work.",
+      "what": "Alif Imam, alifimam02. Brings Carlos Glass + Soomro. His AI SEO: $150/mo, first charge Dec 11.",
       "meta": [
         {
           "label": "Alif's AI SEO",
@@ -661,7 +662,7 @@
         {
           "label": "He brings",
           "normal": true,
-          "value": "Carlos Glass (SEO) · Soomro Construction (website)"
+          "value": "Carlos Glass (SEO) · Soomro (website)"
         },
         {
           "label": "Not him",
@@ -671,14 +672,15 @@
       ],
       "next": {
         "label": "Next →",
-        "html": "Publish Soomro and send Alif the link; confirm the Dec 11 first charge lands. Keep his threads separate from Ali's."
+        "html": "Publish Soomro, confirm the Dec 11 charge."
       },
       "tags": [
         "Discord @alifimam02",
         "AI SEO $150/mo",
         "Separate from Ali"
       ],
-      "section": "active"
+      "section": "active",
+      "status": "due"
     }
   ],
   "stalled": [

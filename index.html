@@ -91,10 +91,13 @@
   .section-note{color:var(--ink2);font-size:13.5px;line-height:1.5;margin:0 0 12px}
 
   /* CARDS */
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  @media(max-width:1100px){.grid{grid-template-columns:1fr 1fr}}
   @media(max-width:640px){.grid{grid-template-columns:1fr}}
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
-  .card.urgent{border:2px solid var(--orange)}
+  .card.status-due,.card.status-waiting{border:2px solid var(--orange)}
+  .card.status-done,.card.status-live{border:2px solid var(--green)}
+  .card.status-done .next strong,.card.status-live .next strong{color:var(--green)}
   .card-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
   .who{font-weight:900;font-size:17px;letter-spacing:-.02em;line-height:1.1}
   .biz{color:var(--ink2);font-size:13px;font-weight:600;margin-top:2px}
@@ -151,6 +154,20 @@
 
   footer{margin-top:34px;border-top:2px solid var(--ink);padding-top:16px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:var(--ink2);font-size:12.5px;line-height:1.5}
   .empty{border:1.5px dashed var(--line2);border-radius:var(--radius);padding:22px;text-align:center;color:var(--ink2);font-size:14px;display:none}
+
+  /* EDIT MODE */
+  .editbar{display:none;gap:8px;flex-wrap:wrap;align-items:center;background:var(--blue-bg);border:1px solid var(--blue);border-radius:var(--radius);padding:10px 12px;margin-top:10px;font-size:13px}
+  body.editing .editbar{display:flex}
+  .editbar b{font-weight:800}
+  .editbar button,.editbtn{font-family:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:7px 12px;border:1px solid var(--line2);background:var(--card);color:var(--ink);cursor:pointer}
+  .editbar button.primary,.editbtn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+  .editbar a{font-weight:700}
+  .editbtn{margin-left:auto}
+  [contenteditable="true"]{outline:2px dashed var(--blue);outline-offset:2px;border-radius:6px;min-height:1em}
+  .status-picker{font-family:inherit;font-size:12px;font-weight:700;border-radius:999px;padding:5px 8px;border:1px solid var(--line2);background:var(--card2);color:var(--ink);cursor:pointer;margin-left:6px}
+  .savednote{display:none;font-size:12.5px;color:var(--ink2);margin-top:6px}
+  .savednote.show{display:block}
+  .savednote button{font-family:inherit;font-size:12px;font-weight:700;border-radius:999px;padding:4px 9px;border:1px solid var(--line2);background:var(--card);color:var(--ink);cursor:pointer;margin-left:6px}
 </style>
 </head>
 <body>
@@ -160,7 +177,7 @@
     <div>
       <div class="kicker">Annovacore Tech · One place for who / what / when / why</div>
       <h1>Agency <span>Dashboard</span></h1>
-      <p class="sub">Every current build from your <strong>Discord DMs + iMessage</strong>, in one board. Ali is <strong>tictak0731</strong> (Toronto), Alif is <strong>alifimam02</strong> — two different people, never merged here. This page reads its data from a file called <strong>data.json</strong> in the same folder, so it updates without a rebuild: when the DM watcher logs something new, Muse updates data.json and this board shows it on the next load.</p>
+      <p class="sub">Every current build from your <strong>Discord DMs + iMessage</strong>. Ali is <strong>tictak0731</strong>, Alif is <strong>alifimam02</strong> — two different people, never merged. This board reads <strong>data.json</strong>, so it updates without a rebuild. Hit <strong>✎ Edit</strong> to change anything yourself.</p>
       <div class="role">
         <span class="pill">Camrin Hampton <em>— AI Developer</em></span>
         <span class="pill">Annovacore Tech <em>— your one-person AI systems agency</em></span>
@@ -190,19 +207,37 @@
       <button class="chip" data-filter="stalled" aria-pressed="false">Stalled</button>
     </div>
     <div class="countline" id="countline">Showing all projects</div>
+    <button class="editbtn" id="editToggle" type="button">✎ Edit board</button>
+    <div class="editbar" id="editbar">
+      <b>Editing.</b><span>Click any text to change it. Use the dropdown on a card to move it between Due / Waiting / Done / Live.</span>
+      <button class="primary" id="editSave" type="button">Save on this device</button>
+      <button id="editCancel" type="button">Cancel</button>
+      <button id="editReset" type="button">Reset to data.json</button>
+      <button id="editDownload" type="button">Download data.json</button>
+      <a href="https://github.com/Cyb3rCam/agency-dashboard/edit/main/data.json" target="_blank" rel="noopener">Edit data.json on GitHub ↗</a>
+    </div>
+    <div class="savednote" id="savedNote">Showing your saved edits from this device.<button id="savedReset" type="button">Reset to data.json</button></div>
+    <div class="savednote" id="staleNote">New data arrived from Muse — your saved edits were made against an older version.<button id="staleRestore" type="button">Restore my edits</button><button id="staleDismiss" type="button">Dismiss</button></div>
   </div>
 
   <div class="layout">
     <main>
       <!-- URGENT -->
       <h2>Due tomorrow &amp; Wednesday <span class="n">NOV 24–25</span></h2>
-      <p class="section-note">Don't wake up guessing. These five are the whole week. Everything else can wait until these are handled.</p>
+      <p class="section-note">The whole week, in one glance. Handle these first.</p>
       <div class="grid" id="urgentGrid">
+      </div>
+
+      <!-- DONE -->
+      <div id="doneSection" style="display:none">
+        <h2>Done <span class="n">HANDLED ✓</span></h2>
+        <p class="section-note">Finished on your end. Green means nothing owed.</p>
+        <div class="grid" id="doneGrid"></div>
       </div>
 
       <!-- ACTIVE -->
       <h2>Active builds <span class="n">IN MOTION</span></h2>
-      <p class="section-note">Real clients, real systems. The blocker on most of these isn't you — it's one file, one login, or one payment sitting with someone else.</p>
+      <p class="section-note">Real clients, real systems. Most blockers are one file, login, or payment away.</p>
       <div class="grid" id="activeGrid">
       </div>
 
@@ -210,14 +245,14 @@
 
       <!-- STALLED -->
       <h2>Stalled &amp; parked <span class="n">DON'T CHASE BLINDLY</span></h2>
-      <p class="section-note">Real threads, no movement. One nudge max if you touch them at all — your two-message rule still applies. If they come back, they move up. If not, they stay here and cost you nothing.</p>
+      <p class="section-note">No movement. One nudge max. If they come back, they move up.</p>
       <div class="stalled" id="stalledGrid">
       </div>
       <div class="empty" id="empty">No projects match that filter. Try “All” or a different name.</div>
 
       <!-- SETUP BREAKDOWN -->
       <h2>Setup breakdown <span class="n">WHO PAYS WHAT, FOR WHAT</span></h2>
-      <p class="section-note">Every setup on the board, broken apart — your price vs. what the student charges their client, what's included, and whether it's paid, pending, or not live. Your price never goes on a doc the student hands to their client.</p>
+      <p class="section-note">Your price vs. the student's markup — paid, pending, or not live.</p>
       <div class="grid" id="setupGrid">
       </div>
 
@@ -225,7 +260,7 @@
 
       <!-- PRICE SHEET -->
       <h2>Your price sheet <span class="n">REV 2026.09 · DISCORD @RICHANDORGANIC</span></h2>
-      <p class="section-note">The numbers you quote in the dev-group channel. Students mark up from here — a student reselling your build charges their client at least 2× what you charge them. Never put your price on a doc the student hands to their client.</p>
+      <p class="section-note">The numbers you quote. Students charge their client at least 2× these.</p>
       <div class="grid">
         <div class="card">
           <div class="who" style="font-size:15px">Systems</div>
@@ -318,24 +353,41 @@
   var empty = document.getElementById('empty');
   var filter = 'all';
   var items = [];
+  var data = null;
+  var editing = false;
+  var LS_KEY = 'agency-dashboard-edits';
 
   function esc(s){ return String(s == null ? '' : s); }
 
-  function cardEl(c){
+  function setPath(obj, path, val){
+    var parts = path.split('.');
+    var o = obj;
+    for(var i = 0; i < parts.length - 1; i++){
+      var k = parts[i];
+      if(!(k in o)) o[k] = {};
+      o = o[k];
+    }
+    o[parts[parts.length - 1]] = val;
+  }
+
+  function cardEl(c, i){
     var a = document.createElement('article');
-    a.className = c.cls;
+    a.className = 'card status-' + (c.status || 'waiting');
     a.setAttribute('data-cat', c.cat);
     a.setAttribute('data-search', c.search);
+    a.setAttribute('data-idx', i);
     var metaHtml = '';
-    (c.meta || []).forEach(function(m){
-      metaHtml += '<div><label>' + esc(m.label) + '</label><span' + (m.normal ? ' class="normal"' : '') + '>' + m.value + '</span></div>';
+    (c.meta || []).forEach(function(m, j){
+      metaHtml += '<div><label data-path="projects.' + i + '.meta.' + j + '.label">' + esc(m.label) + '</label>' +
+        '<span data-path="projects.' + i + '.meta.' + j + '.value"' + (m.normal ? ' class="normal"' : '') + '>' + m.value + '</span></div>';
     });
-    var nextHtml = c.next ? '<div class="next"><strong>' + esc(c.next.label) + '</strong> ' + c.next.html + '</div>' : '';
+    var nextHtml = c.next ? '<div class="next"><strong>' + esc(c.next.label) + '</strong> <span data-path="projects.' + i + '.next.html" data-html="1">' + c.next.html + '</span></div>' : '';
     var tagsHtml = (c.tags || []).map(function(t){ return '<span class="tag">' + esc(t) + '</span>'; }).join('');
     a.innerHTML =
-      '<div class="card-top"><div><div class="who">' + esc(c.who) + '</div><div class="biz">' + c.biz + '</div></div>' +
-      '<span class="badge ' + c.badge.cls + '">' + esc(c.badge.text) + '</span></div>' +
-      '<p class="what">' + c.what + '</p>' +
+      '<div class="card-top"><div><div class="who" data-path="projects.' + i + '.who">' + esc(c.who) + '</div>' +
+      '<div class="biz" data-path="projects.' + i + '.biz" data-html="1">' + c.biz + '</div></div>' +
+      '<span class="badge ' + c.badge.cls + '" data-path="projects.' + i + '.badge.text">' + esc(c.badge.text) + '</span></div>' +
+      '<p class="what" data-path="projects.' + i + '.what" data-html="1">' + c.what + '</p>' +
       (metaHtml ? '<div class="meta">' + metaHtml + '</div>' : '') +
       nextHtml +
       (tagsHtml ? '<div class="tags">' + tagsHtml + '</div>' : '');
@@ -343,83 +395,95 @@
   }
 
   function render(d){
-    // meta
     if(d.meta){
-      var dd = document.getElementById('dashDate'); if(dd) dd.textContent = d.meta.date;
-      var du = document.getElementById('dashUpdated'); if(du) du.innerHTML = d.meta.updated_line;
-      var fu = document.getElementById('footUpdated'); if(fu) fu.innerHTML = d.meta.footer_updated + '<br>Refreshes from data.json — no rebuild needed.';
+      var dd = document.getElementById('dashDate'); if(dd){ dd.textContent = d.meta.date; dd.setAttribute('data-path', 'meta.date'); }
+      var du = document.getElementById('dashUpdated'); if(du){ du.innerHTML = d.meta.updated_line; du.setAttribute('data-path', 'meta.updated_line'); du.setAttribute('data-html', '1'); }
+      var fu = document.getElementById('footUpdated'); if(fu){ fu.innerHTML = d.meta.footer_updated + '<br>Refreshes from data.json — no rebuild needed.'; fu.setAttribute('data-path', 'meta.footer_updated'); }
     }
-    // stats
     var stats = document.getElementById('stats');
     if(stats){
       stats.innerHTML = '';
-      (d.stats || []).forEach(function(s){
+      (d.stats || []).forEach(function(s, i){
         var el = document.createElement('div');
         el.className = 'stat';
-        el.innerHTML = '<label>' + esc(s.label) + '</label><b>' + s.value + '</b><p>' + esc(s.text) + '</p>' +
+        el.innerHTML = '<label data-path="stats.' + i + '.label">' + esc(s.label) + '</label>' +
+          '<b data-path="stats.' + i + '.value" data-html="1">' + s.value + '</b>' +
+          '<p data-path="stats.' + i + '.text">' + esc(s.text) + '</p>' +
           (s.bar != null ? '<div class="bar"><i style="width:' + s.bar + '%"></i></div>' : '');
         stats.appendChild(el);
       });
     }
-    // project cards
     var ug = document.getElementById('urgentGrid');
     var ag = document.getElementById('activeGrid');
+    var dg = document.getElementById('doneGrid');
+    var ds = document.getElementById('doneSection');
     if(ug) ug.innerHTML = '';
     if(ag) ag.innerHTML = '';
-    (d.projects || []).forEach(function(c){
-      var el = cardEl(c);
-      if(c.section === 'urgent' && ug) ug.appendChild(el);
-      else if(ag) ag.appendChild(el);
+    if(dg) dg.innerHTML = '';
+    var doneCount = 0;
+    (d.projects || []).forEach(function(c, i){
+      var el = cardEl(c, i);
+      if(c.status === 'done'){
+        doneCount++;
+        if(dg) dg.appendChild(el);
+      } else if(c.section === 'urgent' && ug){
+        ug.appendChild(el);
+      } else if(ag){
+        ag.appendChild(el);
+      }
     });
-    // stalled
+    if(ds) ds.style.display = doneCount ? '' : 'none';
     var sg = document.getElementById('stalledGrid');
     if(sg){
       sg.innerHTML = '';
-      (d.stalled || []).forEach(function(s){
+      (d.stalled || []).forEach(function(s, i){
         var el = document.createElement('div');
         el.className = 'stall';
         el.setAttribute('data-cat', s.cat);
         el.setAttribute('data-search', s.search);
-        el.innerHTML = '<b>' + esc(s.name) + '</b><p>' + esc(s.text) + '</p><span class="m">' + esc(s.m) + '</span>';
+        el.innerHTML = '<b data-path="stalled.' + i + '.name">' + esc(s.name) + '</b>' +
+          '<p data-path="stalled.' + i + '.text">' + esc(s.text) + '</p>' +
+          '<span class="m" data-path="stalled.' + i + '.m">' + esc(s.m) + '</span>';
         sg.appendChild(el);
       });
     }
-    // reminders
     var rem = document.getElementById('reminders');
     if(rem){
       rem.innerHTML = '';
-      (d.reminders || []).forEach(function(r){
+      (d.reminders || []).forEach(function(r, i){
         var el = document.createElement('div');
         el.className = 'rem';
-        el.innerHTML = '<span class="dot" style="background:' + r.dot + '"></span><div class="when">' + esc(r.when) + '</div>' +
-          '<div class="what2"><b>' + esc(r.title) + '</b><span>' + esc(r.text) + '</span></div>';
+        el.innerHTML = '<span class="dot" style="background:' + r.dot + '"></span>' +
+          '<div class="when" data-path="reminders.' + i + '.when">' + esc(r.when) + '</div>' +
+          '<div class="what2"><b data-path="reminders.' + i + '.title">' + esc(r.title) + '</b>' +
+          '<span data-path="reminders.' + i + '.text">' + esc(r.text) + '</span></div>';
         rem.appendChild(el);
       });
     }
-    // money snapshot
     var mr = document.getElementById('moneyRows');
     if(mr){
       mr.innerHTML = '';
-      (d.money || []).forEach(function(m){
+      (d.money || []).forEach(function(m, i){
         var el = document.createElement('div');
         el.className = 'moneyrow';
-        el.innerHTML = '<span>' + esc(m.label) + '</span><b>' + esc(m.value) + '</b>';
+        el.innerHTML = '<span data-path="money.' + i + '.label">' + esc(m.label) + '</span>' +
+          '<b data-path="money.' + i + '.value">' + esc(m.value) + '</b>';
         mr.appendChild(el);
       });
     }
-    // setup breakdown
     var sp = document.getElementById('setupGrid');
     if(sp){
       sp.innerHTML = '';
-      (d.setup || []).forEach(function(s){
+      (d.setup || []).forEach(function(s, i){
         var el = document.createElement('div');
         el.className = 'card';
-        var inner = '<div class="who" style="font-size:15px">' + esc(s.title) + '</div>';
-        (s.items || []).forEach(function(it){
+        var inner = '<div class="who" style="font-size:15px" data-path="setup.' + i + '.title">' + esc(s.title) + '</div>';
+        (s.items || []).forEach(function(it, j){
           if(it.type === 'moneyrow'){
-            inner += '<div class="moneyrow"><span>' + it.label + '</span><b>' + it.value + '</b></div>';
+            inner += '<div class="moneyrow"><span data-path="setup.' + i + '.items.' + j + '.label" data-html="1">' + it.label + '</span>' +
+              '<b data-path="setup.' + i + '.items.' + j + '.value">' + it.value + '</b></div>';
           } else {
-            inner += '<p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--ink2)">' + it.html + '</p>';
+            inner += '<p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--ink2)" data-path="setup.' + i + '.items.' + j + '.html" data-html="1">' + it.html + '</p>';
           }
         });
         el.innerHTML = inner;
@@ -428,6 +492,7 @@
     }
     items = Array.prototype.slice.call(document.querySelectorAll('[data-cat]'));
     apply();
+    if(editing) armEditables();
   }
 
   function apply(){
@@ -456,9 +521,139 @@
   });
   q.addEventListener('input', apply);
 
+  // ---------- edit mode ----------
+  var editToggle = document.getElementById('editToggle');
+  var savedNote = document.getElementById('savedNote');
+  var staleNote = document.getElementById('staleNote');
+  var staleStored = null;
+
+  function armEditables(){
+    Array.prototype.slice.call(document.querySelectorAll('[data-path]')).forEach(function(el){
+      el.setAttribute('contenteditable', 'true');
+      el.setAttribute('spellcheck', 'false');
+    });
+    // status picker on each project card
+    Array.prototype.slice.call(document.querySelectorAll('article.card[data-idx]')).forEach(function(card){
+      if(card.querySelector('.status-picker')) return;
+      var idx = parseInt(card.getAttribute('data-idx'), 10);
+      var cur = (data.projects[idx] && data.projects[idx].status) || 'waiting';
+      var sel = document.createElement('select');
+      sel.className = 'status-picker';
+      sel.setAttribute('data-status-for', idx);
+      sel.setAttribute('aria-label', 'Status');
+      [['due', 'Due'], ['waiting', 'Waiting'], ['done', 'Done ✓'], ['live', 'Live']].forEach(function(o){
+        var op = document.createElement('option');
+        op.value = o[0]; op.textContent = o[1];
+        if(o[0] === cur) op.selected = true;
+        sel.appendChild(op);
+      });
+      var top = card.querySelector('.card-top');
+      if(top) top.appendChild(sel);
+    });
+  }
+
+  function disarmEditables(){
+    Array.prototype.slice.call(document.querySelectorAll('[contenteditable]')).forEach(function(el){
+      el.removeAttribute('contenteditable');
+    });
+    Array.prototype.slice.call(document.querySelectorAll('.status-picker')).forEach(function(el){ el.remove(); });
+  }
+
+  function enterEdit(){
+    if(!data || editing) return;
+    editing = true;
+    document.body.classList.add('editing');
+    editToggle.textContent = 'Editing…';
+    armEditables();
+  }
+
+  function exitEdit(){
+    editing = false;
+    document.body.classList.remove('editing');
+    editToggle.textContent = '✎ Edit board';
+    disarmEditables();
+  }
+
+  function collectEdits(){
+    Array.prototype.slice.call(document.querySelectorAll('[data-path]')).forEach(function(el){
+      var path = el.getAttribute('data-path');
+      var val = el.getAttribute('data-html') ? el.innerHTML.trim() : el.textContent.trim();
+      setPath(data, path, val);
+    });
+    Array.prototype.slice.call(document.querySelectorAll('.status-picker')).forEach(function(sel){
+      var idx = parseInt(sel.getAttribute('data-status-for'), 10);
+      if(data.projects[idx]) data.projects[idx].status = sel.value;
+    });
+  }
+
+  function saveEdits(){
+    if(!data) return;
+    collectEdits();
+    try{
+      localStorage.setItem(LS_KEY, JSON.stringify({version: data.meta.version, data: data}));
+    }catch(e){}
+    exitEdit();
+    render(data);
+    if(savedNote) savedNote.classList.add('show');
+  }
+
+  function resetToData(){
+    try{ localStorage.removeItem(LS_KEY); }catch(e){}
+    exitEdit();
+    if(savedNote) savedNote.classList.remove('show');
+    if(staleNote) staleNote.classList.remove('show');
+    fetch('data.json', {cache: 'no-store'})
+      .then(function(r){ return r.json(); })
+      .then(function(d){ data = d; render(data); });
+  }
+
+  function downloadJSON(){
+    if(!data) return;
+    collectEdits();
+    var blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'data.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  if(editToggle) editToggle.addEventListener('click', function(){ editing ? exitEdit() : enterEdit(); });
+  var es = document.getElementById('editSave'); if(es) es.addEventListener('click', saveEdits);
+  var ec = document.getElementById('editCancel'); if(ec) ec.addEventListener('click', function(){ exitEdit(); render(data); });
+  var er = document.getElementById('editReset'); if(er) er.addEventListener('click', resetToData);
+  var ed = document.getElementById('editDownload'); if(ed) ed.addEventListener('click', downloadJSON);
+  var sr = document.getElementById('savedReset'); if(sr) sr.addEventListener('click', resetToData);
+  var sd = document.getElementById('staleDismiss'); if(sd) sd.addEventListener('click', function(){ if(staleNote) staleNote.classList.remove('show'); });
+  var sres = document.getElementById('staleRestore'); if(sres) sres.addEventListener('click', function(){
+    if(staleStored && staleStored.data){
+      data = staleStored.data;
+      render(data);
+      if(savedNote) savedNote.classList.add('show');
+    }
+    if(staleNote) staleNote.classList.remove('show');
+  });
+
+  // ---------- load ----------
   fetch('data.json', {cache: 'no-store'})
     .then(function(r){ if(!r.ok) throw new Error('data.json HTTP ' + r.status); return r.json(); })
-    .then(render)
+    .then(function(d){
+      var stored = null;
+      try{ stored = JSON.parse(localStorage.getItem(LS_KEY)); }catch(e){}
+      if(stored && stored.data && stored.version === d.meta.version){
+        data = stored.data;
+        render(data);
+        if(savedNote) savedNote.classList.add('show');
+      } else {
+        data = d;
+        render(data);
+        if(stored && stored.data){
+          staleStored = stored;
+          if(staleNote) staleNote.classList.add('show');
+        }
+      }
+    })
     .catch(function(err){
       var ug = document.getElementById('urgentGrid');
       if(ug) ug.innerHTML = '<p style="color:var(--ink2)">Could not load data.json (' + err.message + '). The board data lives in data.json next to this page.</p>';
