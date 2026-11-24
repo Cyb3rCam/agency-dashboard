@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Agency Dashboard — Annovacore Tech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f3ef; --bg2:#eceae3; --card:#ffffff; --card2:#f9f8f4;
+    --ink:#16130e; --ink2:#5a554b; --ink3:#8a8478;
+    --line:#ddd8cc; --line2:#cbc4b2;
+    --orange:#e8490f; --orange-bg:#fff0e8; --orange-ink:#9a2e06;
+    --green:#0e7a3e; --green-bg:#e6f4eb; --green-ink:#0a5c2e;
+    --amber:#9a6b00; --amber-bg:#fdf3d0; --amber-ink:#6e4d00;
+    --blue:#175cd3; --blue-bg:#eaf0fe;
+    --red:#c81e1e; --red-bg:#fdecec;
+    --gray-bg:#efede8; --gray-ink:#5a554b;
+    --shadow:0 1px 0 rgba(0,0,0,.06), 0 8px 24px rgba(22,19,14,.06);
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0f0e0c; --bg2:#171512; --card:#1c1a17; --card2:#23201c;
+      --ink:#f2efe8; --ink2:#b8b1a2; --ink3:#7d776c;
+      --line:#2e2a24; --line2:#3d382f;
+      --orange:#ff6a2b; --orange-bg:#2e1a0f; --orange-ink:#ffb08a;
+      --green:#3ecf7a; --green-bg:#0f2a1a; --green-ink:#7be2a3;
+      --amber:#f5c542; --amber-bg:#2c2408; --amber-ink:#ffd970;
+      --blue:#6ea8ff; --blue-bg:#14243f;
+      --red:#ff6b6b; --red-bg:#2e1212;
+      --gray-bg:#26231f; --gray-ink:#b8b1a2;
+      --shadow:0 1px 0 rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Archivo",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:var(--blue)}
+  button,[role="button"],select,summary,input:not([type="checkbox"]){min-height:2.25rem}
+  .mono{font-family:"IBM Plex Mono",monospace}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 18px 56px}
+
+  /* HEADER */
+  .topbar{border-bottom:2px solid var(--ink);background:var(--bg)}
+  .topbar-in{max-width:1280px;margin:0 auto;padding:18px 18px 14px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between}
+  .kicker{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);font-weight:700}
+  h1{font-size:clamp(28px,4.5vw,44px);line-height:.95;letter-spacing:-.03em;font-weight:900;margin:6px 0 6px}
+  h1 span{color:var(--orange)}
+  .sub{color:var(--ink2);font-size:14.5px;line-height:1.45;max-width:620px}
+  .sub strong{color:var(--ink)}
+  .datebox{text-align:right}
+  .datebox .d{font-family:"IBM Plex Mono",monospace;font-weight:700;font-size:15px}
+  .datebox .t{font-size:12.5px;color:var(--ink2);margin-top:2px}
+  .role{margin-top:10px;display:inline-flex;gap:8px;flex-wrap:wrap}
+  .pill{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--ink);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:700;background:var(--card)}
+  .pill em{font-style:normal;color:var(--ink2);font-weight:500}
+
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 0}
+  @media(max-width:760px){.stats{grid-template-columns:1fr 1fr}}
+  .stat{background:var(--ink);color:var(--bg);border-radius:var(--radius);padding:16px 16px 14px;box-shadow:var(--shadow)}
+  .stat:nth-child(2){background:var(--orange);color:#fff}
+  .stat:nth-child(3){background:var(--card);color:var(--ink);border:1px solid var(--line)}
+  .stat:nth-child(4){background:var(--card);color:var(--ink);border:1px solid var(--line)}
+  .stat label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.75;display:block}
+  .stat b{font-size:32px;letter-spacing:-.03em;line-height:1;display:block;margin:7px 0 4px;font-weight:900}
+  .stat p{margin:0;font-size:12.5px;line-height:1.4;opacity:.85}
+  .bar{height:7px;background:var(--line);border-radius:99px;margin-top:10px;overflow:hidden}
+  .bar i{display:block;height:100%;width:30%;background:var(--green);border-radius:99px}
+
+  /* CONTROLS */
+  .controls{position:sticky;top:0;z-index:20;background:var(--bg);padding:14px 0 10px;border-bottom:1px solid var(--line);margin-top:18px}
+  .controls-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .search{flex:1;min-width:200px;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line2);border-radius:999px;padding:4px 6px 4px 14px}
+  .search input{flex:1;border:0;background:transparent;color:var(--ink);font:inherit;font-size:14px;outline:none;min-height:2.25rem}
+  .chip{border:1px solid var(--line2);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:2.5rem}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .countline{font-size:12.5px;color:var(--ink2);margin-top:8px;font-family:"IBM Plex Mono",monospace}
+
+  /* LAYOUT */
+  .layout{display:grid;grid-template-columns:1fr 340px;gap:18px;margin-top:18px;align-items:start}
+  @media(max-width:980px){.layout{grid-template-columns:1fr}}
+  h2{font-size:20px;letter-spacing:-.02em;margin:26px 0 4px;font-weight:900;display:flex;align-items:center;gap:10px}
+  h2:first-child{margin-top:0}
+  h2 .n{font-family:"IBM Plex Mono",monospace;font-size:12px;background:var(--ink);color:var(--bg);border-radius:999px;padding:3px 9px}
+  .section-note{color:var(--ink2);font-size:13.5px;line-height:1.5;margin:0 0 12px}
+
+  /* CARDS */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+  .card.urgent{border:2px solid var(--orange)}
+  .card-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+  .who{font-weight:900;font-size:17px;letter-spacing:-.02em;line-height:1.1}
+  .biz{color:var(--ink2);font-size:13px;font-weight:600;margin-top:2px}
+  .badge{flex-shrink:0;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:5px 9px;white-space:nowrap}
+  .b-urgent{background:var(--orange-bg);color:var(--orange-ink);border:1px solid var(--orange)}
+  .b-live{background:var(--green-bg);color:var(--green-ink);border:1px solid var(--green)}
+  .b-wait{background:var(--amber-bg);color:var(--amber-ink);border:1px solid #d9a400}
+  .b-hold{background:var(--gray-bg);color:var(--gray-ink);border:1px solid var(--line2)}
+  .b-money{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue)}
+  .what{font-size:14px;line-height:1.5;color:var(--ink)}
+  .meta{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .meta div{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 10px}
+  .meta label{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-weight:700;display:block}
+  .meta span{font-size:13.5px;font-weight:700;display:block;margin-top:2px;line-height:1.35}
+  .meta span.normal{font-weight:500;color:var(--ink2)}
+  .next{border-top:1px dashed var(--line2);padding-top:10px;font-size:13.5px;line-height:1.5}
+  .next strong{color:var(--orange)}
+  .card.live-card .next strong{color:var(--green)}
+  .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .tag{font-family:"IBM Plex Mono",monospace;font-size:11px;border:1px solid var(--line2);border-radius:999px;padding:4px 8px;color:var(--ink2);background:var(--card2)}
+  .hidden{display:none !important}
+
+  /* SIDEBAR */
+  .side{display:flex;flex-direction:column;gap:14px;position:sticky;top:86px}
+  @media(max-width:980px){.side{position:static}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+  .panel.dark{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .panel h3{margin:0 0 4px;font-size:16px;letter-spacing:-.01em;font-weight:900}
+  .panel .pn{font-size:12.5px;opacity:.75;line-height:1.45;margin:0 0 12px}
+  .rem{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+  .panel.dark .rem{border-top-color:rgba(255,255,255,.18)}
+  .rem:first-of-type{border-top:0}
+  .rem .when{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;min-width:74px;padding-top:2px}
+  .rem .what2{font-size:13.5px;line-height:1.45}
+  .rem .what2 b{display:block;font-size:13.5px}
+  .rem .what2 span{opacity:.8;font-size:12.5px}
+  .dot{width:9px;height:9px;border-radius:99px;margin-top:5px;flex-shrink:0}
+  .moneyrow{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px}
+  .moneyrow:first-of-type{border-top:0}
+  .moneyrow b{font-family:"IBM Plex Mono",monospace;white-space:nowrap}
+  .moneyrow span{color:var(--ink2)}
+  .rule{font-size:13.5px;line-height:1.5;padding:9px 0;border-top:1px solid var(--line)}
+  .rule:first-of-type{border-top:0}
+  .rule b{color:var(--red)}
+
+  /* STALLED TABLE -> cards on mobile */
+  .stalled{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  @media(max-width:760px){.stalled{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.stalled{grid-template-columns:1fr}}
+  .stall{background:var(--card2);border:1px dashed var(--line2);border-radius:12px;padding:13px}
+  .stall b{font-size:14px;display:block}
+  .stall p{margin:4px 0 0;font-size:12.5px;color:var(--ink2);line-height:1.45}
+  .stall .m{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink);margin-top:6px;display:block}
+
+  footer{margin-top:34px;border-top:2px solid var(--ink);padding-top:16px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:var(--ink2);font-size:12.5px;line-height:1.5}
+  .empty{border:1.5px dashed var(--line2);border-radius:var(--radius);padding:22px;text-align:center;color:var(--ink2);font-size:14px;display:none}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div>
+      <div class="kicker">Annovacore Tech · One place for who / what / when / why</div>
+      <h1>Agency <span>Dashboard</span></h1>
+      <p class="sub">Every current build from your <strong>Discord DMs + iMessage</strong>, in one board. Ali is <strong>tictak0731</strong> (Toronto), Alif is <strong>alifimam02</strong> — two different people, never merged here. This page reads its data from a file called <strong>data.json</strong> in the same folder, so it updates without a rebuild: when the DM watcher logs something new, Muse updates data.json and this board shows it on the next load.</p>
+      <div class="role">
+        <span class="pill">Camrin Hampton <em>— AI Developer</em></span>
+        <span class="pill">Annovacore Tech <em>— your one-person AI systems agency</em></span>
+      </div>
+    </div>
+    <div class="datebox">
+      <div class="d" id="dashDate">MON · NOV 23, 2026</div>
+      <div class="t" id="dashUpdated">Updated tonight, 8:47pm PT</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- STATS -->
+  <div class="stats" id="stats" aria-label="Summary"></div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <div class="controls-row" role="group" aria-label="Filter projects">
+      <label class="search">⌕ <input id="q" type="search" placeholder="Search a name, business, or system… e.g. Beckham, reviews, website" aria-label="Search projects"></label>
+      <button class="chip" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" data-filter="urgent" aria-pressed="false">🔥 Urgent</button>
+      <button class="chip" data-filter="active" aria-pressed="false">Active</button>
+      <button class="chip" data-filter="waiting" aria-pressed="false">Waiting on them</button>
+      <button class="chip" data-filter="money" aria-pressed="false">Money</button>
+      <button class="chip" data-filter="stalled" aria-pressed="false">Stalled</button>
+    </div>
+    <div class="countline" id="countline">Showing all projects</div>
+  </div>
+
+  <div class="layout">
+    <main>
+      <!-- URGENT -->
+      <h2>Due tomorrow &amp; Wednesday <span class="n">NOV 24–25</span></h2>
+      <p class="section-note">Don't wake up guessing. These five are the whole week. Everything else can wait until these are handled.</p>
+      <div class="grid" id="urgentGrid">
+      </div>
+
+      <!-- ACTIVE -->
+      <h2>Active builds <span class="n">IN MOTION</span></h2>
+      <p class="section-note">Real clients, real systems. The blocker on most of these isn't you — it's one file, one login, or one payment sitting with someone else.</p>
+      <div class="grid" id="activeGrid">
+      </div>
+
+      </div>
+
+      <!-- STALLED -->
+      <h2>Stalled &amp; parked <span class="n">DON'T CHASE BLINDLY</span></h2>
+      <p class="section-note">Real threads, no movement. One nudge max if you touch them at all — your two-message rule still applies. If they come back, they move up. If not, they stay here and cost you nothing.</p>
+      <div class="stalled" id="stalledGrid">
+      </div>
+      <div class="empty" id="empty">No projects match that filter. Try “All” or a different name.</div>
+
+      <!-- SETUP BREAKDOWN -->
+      <h2>Setup breakdown <span class="n">WHO PAYS WHAT, FOR WHAT</span></h2>
+      <p class="section-note">Every setup on the board, broken apart — your price vs. what the student charges their client, what's included, and whether it's paid, pending, or not live. Your price never goes on a doc the student hands to their client.</p>
+      <div class="grid" id="setupGrid">
+      </div>
+
+      </div>
+
+      <!-- PRICE SHEET -->
+      <h2>Your price sheet <span class="n">REV 2026.09 · DISCORD @RICHANDORGANIC</span></h2>
+      <p class="section-note">The numbers you quote in the dev-group channel. Students mark up from here — a student reselling your build charges their client at least 2× what you charge them. Never put your price on a doc the student hands to their client.</p>
+      <div class="grid">
+        <div class="card">
+          <div class="who" style="font-size:15px">Systems</div>
+          <div>
+            <div class="moneyrow"><span>AI Voice Receptionist</span><b>$500–1,000 + $200–500/mo</b></div>
+            <div class="moneyrow"><span>Lead Pipeline + Auto Follow-Up</span><b>$199 + $129/mo</b></div>
+            <div class="moneyrow"><span>Instant Missed-Call Text*</span><b>$149 + $89/mo</b></div>
+            <div class="moneyrow"><span>Chatbot — Web &amp; Socials</span><b>$199 + $99/mo</b></div>
+            <div class="moneyrow"><span>IG &amp; FB DM Booking</span><b>$199 + $99/mo</b></div>
+            <div class="moneyrow"><span>5-Star Review Engine</span><b>$149 + $89/mo</b></div>
+            <div class="moneyrow"><span>No-Show Reminder</span><b>$149 + $89/mo</b></div>
+            <div class="moneyrow"><span>Website / Landing Page</span><b>$297 + $49/mo</b></div>
+            <div class="moneyrow"><span>AI SEO</span><b>$400 start (= month 1) + $400/mo</b></div>
+            <div class="moneyrow"><span>Custom Web App / Workflow</span><b>By quote</b></div>
+          </div>
+          <p style="margin:0;font-size:12.5px;color:var(--ink2)">*Missed-Call Text is a weak starter (single text, no AI, heavy A2P setup). Better as an add-on. Start-here combo: Lead Pipeline + Review Engine.</p>
+        </div>
+        <div class="card">
+          <div class="who" style="font-size:15px">Bundles</div>
+          <div>
+            <div class="moneyrow"><span>Never-Miss Stack</span><b>$447 + $229/mo</b></div>
+            <div class="moneyrow"><span>Booked &amp; Showing Up</span><b>$279 + $179/mo</b></div>
+            <div class="moneyrow"><span>Reputation + Storefront</span><b>$379 + $119/mo</b></div>
+          </div>
+          <p style="margin:0;font-size:13px;line-height:1.55;color:var(--ink2)">Bundle discount: <strong style="color:var(--ink)">2 systems 10% off setup · 3 systems 15% off · 4+ custom quote</strong>, typically $500+ off. All prices are starting points — everything gets scoped before work begins.</p>
+          <div class="who" style="font-size:15px;margin-top:6px">Funnel reminder</div>
+          <p style="margin:0;font-size:13px;line-height:1.55;color:var(--ink2)">One funnel, one calculator: the <strong style="color:var(--ink)">Free Missed-Call Audit</strong> on annovacoretech.com → demo number (Ethan, +1 478-800-9008) → 15-min call with you. No prices on the site, ever.</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="side">
+      <section class="panel dark" aria-label="Reminders">
+        <h3>⏰ Reminders — in order</h3>
+        <p class="pn">Sorted by when they bite. Tonight first.</p>
+        <div id="reminders"></div>
+      </section>
+
+      <section class="panel" aria-label="Money snapshot">
+        <h3>💰 Money snapshot</h3>
+        <p class="pn">Only what's in Stripe, Zelle, or Apple Pay records and the DM scan. Nothing guessed.</p>
+        <div id="moneyRows"></div>
+      </section>
+
+      <section class="panel" aria-label="Rules">
+        <h3>🚫 Hard rules on this board</h3>
+        <p class="pn">So future-you (and any sub-agent helping you) doesn't step on these.</p>
+        <div class="rule"><b>Do not nudge Beckham.</b> On hold since Nov 17. He moves when Chandler moves.</div>
+        <div class="rule"><b>Fhen + Carter are blacklisted</b> for Discord auto-replies. You and Fhen don't talk. Carter is ads, you're systems — don't let his $200 nurture pitch set your $400 price.</div>
+        <div class="rule"><b>Do-not-contact forever:</b> Damion Bryan / Bryan's Sod, Eric L. Scott, David's Lawn, Omer Okic / Ultimate Exteriors.</div>
+        <div class="rule"><b>Ali ≠ Alif — two different people.</b> Ali is <b>tictak0731</b> in Toronto: Niare Electrical + Rilo Window Cleaning, $30 PayPal Nov 22. Alif is <b>alifimam02</b>: Carlos Glass + Soomro Construction, AI SEO $150/mo, Stripe first charge Dec 11. You call Alif “Ali” as a nickname — never let that merge them into one person, card, or money line.</div>
+        <div class="rule"><b>Student prices ≠ your prices.</b> Mohammed's $800/mo and Owen's markup are what THEY charge their clients. Your revenue is your price-sheet price only.</div>
+        <div class="rule"><b>Two-message rule:</b> first message + one follow-up, then stop. A reply resets it. Auto-replies don't count as replies.</div>
+        <div class="rule"><b>Discord voice:</b> any message sent as you is lowercase, short, casual — never proper, never AI-sounding. Inner-circle dev questions (not Fhen/Carter): “check dm” in channel, answer in DM — unless it's general knowledge, then answer publicly so people see you know ball.</div>
+      </section>
+
+      <section class="panel" aria-label="Sub-agents and automations">
+        <h3>🤖 Sub-agents &amp; automations watching this</h3>
+        <p class="pn">The helpers you already have running, and what each one owns. This page is a snapshot — these are what keep it from going stale.</p>
+        <div class="rule"><strong>Morning Briefing — daily 8:00am.</strong> Overnight replies (Messenger, Gmail, IG), sends going out that day, calls that day, 10-MRR scoreboard, pending decisions. Owns: your daily “what's due” list.</div>
+        <div class="rule"><strong>Delta Autos Gmail Watch — every 2 hours.</strong> Watches for Chandler's access email to owner@deltaautosusa.com replies. Pings you 🤑 the moment it lands, no cutoff. Owns: unblocking Beckham's build.</div>
+        <div class="rule"><strong>Discord Auto-Reply — rules set Nov 23.</strong> Dev-group price/quote questions answered from your price sheet; inner-circle dev questions (never Fhen or Carter) get “check dm” + a DM answer, general-knowledge questions answered publicly. All in your voice: lowercase, short, casual. Owns: inbound Discord questions.</div>
+        <div class="rule"><strong>Coach Outreach Batch — daily 7:00am.</strong> Fresh coach list every morning, 20/day across Instagram + LinkedIn. Separate from this delivery board — coaches are the gatekeepers, these projects are the students/clients already in. Owns: new deal flow.</div>
+        <div class="rule"><strong>Dashboard updates:</strong> this page reads <strong>data.json</strong> in the same repo — no rebuild, no re-share. The DM watcher (every 15 min) logs new proposals, demos, and money mentions, and Muse folds them into data.json whenever you say “update the dashboard.” That is the real-time loop: watcher logs it → data.json updates → board shows it.</div>
+        <div class="rule"><strong>Still manual (no agent yet):</strong> publishing websites, building one-pagers, chasing TXT/CNAME + Looms, and the D7 working check.</div>
+      </section>
+
+      <section class="panel" aria-label="This week">
+        <h3>📅 Also this week</h3>
+        <p class="pn">Not client builds, but on your calendar.</p>
+        <div class="rule"><strong>Mon 5–6pm PT — Ai Systems Mastermind.</strong> You HOST this. Carter covered Nov 23 while you were sick. Next one: push systems hard, win the room over.</div>
+        <div class="rule"><strong>Coach outreach:</strong> 20/day on Instagram + LinkedIn is the separate growth engine (coaches are the gatekeepers). This dashboard is delivery — who's already in. Don't mix the two lists, and never DM a coach twice across platforms.</div>
+        <div class="rule"><strong>Weekends are rest.</strong> Nothing on this board is a weekend job unless you say so.</div>
+      </section>
+    </aside>
+  </div>
+
+  <footer>
+    <div><strong style="color:var(--ink)">Annovacore Tech</strong> · Agency Dashboard · Built from Discord DM scan Nov 23, 2026 + your iMessage note on Cito. Corrections applied Nov 23, 8:47pm PT per your notes — including Ali &amp; Alif split back into two separate people (Ali = tictak0731, Toronto; Alif = alifimam02).<br>Honest gaps: DMs never name “Chandler / Delta Autos” or “Neil Jou” — those are your labels; Beckham's DM just says “the client.” Carlos Glass is Alif's AI SEO client — first month free, so he is not paying anything yet. Cito's review thread lives in iMessage, not Discord.</div>
+    <div class="mono" id="footUpdated">UPDATED · NOV 23, 2026 · 8:47PM PT<br>Refreshes from data.json — no rebuild needed.</div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var q = document.getElementById('q');
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var countline = document.getElementById('countline');
+  var empty = document.getElementById('empty');
+  var filter = 'all';
+  var items = [];
+
+  function esc(s){ return String(s == null ? '' : s); }
+
+  function cardEl(c){
+    var a = document.createElement('article');
+    a.className = c.cls;
+    a.setAttribute('data-cat', c.cat);
+    a.setAttribute('data-search', c.search);
+    var metaHtml = '';
+    (c.meta || []).forEach(function(m){
+      metaHtml += '<div><label>' + esc(m.label) + '</label><span' + (m.normal ? ' class="normal"' : '') + '>' + m.value + '</span></div>';
+    });
+    var nextHtml = c.next ? '<div class="next"><strong>' + esc(c.next.label) + '</strong> ' + c.next.html + '</div>' : '';
+    var tagsHtml = (c.tags || []).map(function(t){ return '<span class="tag">' + esc(t) + '</span>'; }).join('');
+    a.innerHTML =
+      '<div class="card-top"><div><div class="who">' + esc(c.who) + '</div><div class="biz">' + c.biz + '</div></div>' +
+      '<span class="badge ' + c.badge.cls + '">' + esc(c.badge.text) + '</span></div>' +
+      '<p class="what">' + c.what + '</p>' +
+      (metaHtml ? '<div class="meta">' + metaHtml + '</div>' : '') +
+      nextHtml +
+      (tagsHtml ? '<div class="tags">' + tagsHtml + '</div>' : '');
+    return a;
+  }
+
+  function render(d){
+    // meta
+    if(d.meta){
+      var dd = document.getElementById('dashDate'); if(dd) dd.textContent = d.meta.date;
+      var du = document.getElementById('dashUpdated'); if(du) du.innerHTML = d.meta.updated_line;
+      var fu = document.getElementById('footUpdated'); if(fu) fu.innerHTML = d.meta.footer_updated + '<br>Refreshes from data.json — no rebuild needed.';
+    }
+    // stats
+    var stats = document.getElementById('stats');
+    if(stats){
+      stats.innerHTML = '';
+      (d.stats || []).forEach(function(s){
+        var el = document.createElement('div');
+        el.className = 'stat';
+        el.innerHTML = '<label>' + esc(s.label) + '</label><b>' + s.value + '</b><p>' + esc(s.text) + '</p>' +
+          (s.bar != null ? '<div class="bar"><i style="width:' + s.bar + '%"></i></div>' : '');
+        stats.appendChild(el);
+      });
+    }
+    // project cards
+    var ug = document.getElementById('urgentGrid');
+    var ag = document.getElementById('activeGrid');
+    if(ug) ug.innerHTML = '';
+    if(ag) ag.innerHTML = '';
+    (d.projects || []).forEach(function(c){
+      var el = cardEl(c);
+      if(c.section === 'urgent' && ug) ug.appendChild(el);
+      else if(ag) ag.appendChild(el);
+    });
+    // stalled
+    var sg = document.getElementById('stalledGrid');
+    if(sg){
+      sg.innerHTML = '';
+      (d.stalled || []).forEach(function(s){
+        var el = document.createElement('div');
+        el.className = 'stall';
+        el.setAttribute('data-cat', s.cat);
+        el.setAttribute('data-search', s.search);
+        el.innerHTML = '<b>' + esc(s.name) + '</b><p>' + esc(s.text) + '</p><span class="m">' + esc(s.m) + '</span>';
+        sg.appendChild(el);
+      });
+    }
+    // reminders
+    var rem = document.getElementById('reminders');
+    if(rem){
+      rem.innerHTML = '';
+      (d.reminders || []).forEach(function(r){
+        var el = document.createElement('div');
+        el.className = 'rem';
+        el.innerHTML = '<span class="dot" style="background:' + r.dot + '"></span><div class="when">' + esc(r.when) + '</div>' +
+          '<div class="what2"><b>' + esc(r.title) + '</b><span>' + esc(r.text) + '</span></div>';
+        rem.appendChild(el);
+      });
+    }
+    // money snapshot
+    var mr = document.getElementById('moneyRows');
+    if(mr){
+      mr.innerHTML = '';
+      (d.money || []).forEach(function(m){
+        var el = document.createElement('div');
+        el.className = 'moneyrow';
+        el.innerHTML = '<span>' + esc(m.label) + '</span><b>' + esc(m.value) + '</b>';
+        mr.appendChild(el);
+      });
+    }
+    // setup breakdown
+    var sp = document.getElementById('setupGrid');
+    if(sp){
+      sp.innerHTML = '';
+      (d.setup || []).forEach(function(s){
+        var el = document.createElement('div');
+        el.className = 'card';
+        var inner = '<div class="who" style="font-size:15px">' + esc(s.title) + '</div>';
+        (s.items || []).forEach(function(it){
+          if(it.type === 'moneyrow'){
+            inner += '<div class="moneyrow"><span>' + it.label + '</span><b>' + it.value + '</b></div>';
+          } else {
+            inner += '<p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--ink2)">' + it.html + '</p>';
+          }
+        });
+        el.innerHTML = inner;
+        sp.appendChild(el);
+      });
+    }
+    items = Array.prototype.slice.call(document.querySelectorAll('[data-cat]'));
+    apply();
+  }
+
+  function apply(){
+    var term = (q.value || '').trim().toLowerCase();
+    var shown = 0;
+    items.forEach(function(el){
+      var cats = (el.getAttribute('data-cat') || '').split(' ');
+      var okF = filter === 'all' || cats.indexOf(filter) !== -1;
+      var hay = ((el.getAttribute('data-search') || '') + ' ' + el.textContent).toLowerCase();
+      var okQ = !term || hay.indexOf(term) !== -1;
+      var show = okF && okQ;
+      el.classList.toggle('hidden', !show);
+      if(show) shown++;
+    });
+    empty.style.display = shown === 0 ? 'block' : 'none';
+    countline.textContent = shown === items.length ? 'Showing all ' + items.length + ' projects & threads' : 'Showing ' + shown + ' of ' + items.length + ' — filter: ' + filter + (term ? ' · search: “' + term + '”' : '');
+  }
+
+  chips.forEach(function(ch){
+    ch.addEventListener('click', function(){
+      chips.forEach(function(c){ c.setAttribute('aria-pressed','false'); });
+      ch.setAttribute('aria-pressed','true');
+      filter = ch.getAttribute('data-filter');
+      apply();
+    });
+  });
+  q.addEventListener('input', apply);
+
+  fetch('data.json', {cache: 'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error('data.json HTTP ' + r.status); return r.json(); })
+    .then(render)
+    .catch(function(err){
+      var ug = document.getElementById('urgentGrid');
+      if(ug) ug.innerHTML = '<p style="color:var(--ink2)">Could not load data.json (' + err.message + '). The board data lives in data.json next to this page.</p>';
+      countline.textContent = 'Data failed to load — check data.json';
+    });
+})();
+</script>
+</body>
+</html>
